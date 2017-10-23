@@ -28,8 +28,8 @@ import net.neoremind.kraps.rpc.netty.NettyRpcEnvFactory
 object HelloworldServer {
 
   def main(args: Array[String]): Unit = {
-    val host = args(0)
-    //    val host = "localhost"
+    //val host = args(0)
+    val host = "localhost"
     val config = RpcEnvServerConfig(new RpcConf(), "hello-server", host, 52345)
     val rpcEnv: RpcEnv = NettyRpcEnvFactory.create(config)
     val helloEndpoint: RpcEndpoint = new HelloEndpoint(rpcEnv)
@@ -46,11 +46,15 @@ class HelloEndpoint(override val rpcEnv: RpcEnv) extends RpcEndpoint {
 
   override def receiveAndReply(context: RpcCallContext): PartialFunction[Any, Unit] = {
     case SayHi(msg) => {
-      //println(s"receive $msg")
+      println(s"receive $msg")
       context.reply(s"$msg")
     }
     case SayBye(msg) => {
-      //println(s"receive $msg")
+      println(s"receive $msg")
+      context.reply(s"bye, $msg")
+    }
+    case SayTest(msg) => {
+      println(s"receive $msg")
       context.reply(s"bye, $msg")
     }
   }
@@ -64,3 +68,5 @@ class HelloEndpoint(override val rpcEnv: RpcEnv) extends RpcEndpoint {
 case class SayHi(msg: String)
 
 case class SayBye(msg: String)
+
+case class SayTest(msg: String)

@@ -30,8 +30,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object HelloworldClient {
 
   def main(args: Array[String]): Unit = {
-//    asyncCall()
-    syncCall()
+  asyncCall()
+    //syncCall()
   }
 
   def asyncCall() = {
@@ -39,7 +39,7 @@ object HelloworldClient {
     val config = RpcEnvClientConfig(rpcConf, "hello-client")
     val rpcEnv: RpcEnv = NettyRpcEnvFactory.create(config)
     val endPointRef: RpcEndpointRef = rpcEnv.setupEndpointRef(RpcAddress("localhost", 52345), "hello-service")
-    val future: Future[String] = endPointRef.ask[String](SayHi("neo"))
+    val future: Future[String] = endPointRef.ask[String](SayTest("neo"))
     future.onComplete {
       case scala.util.Success(value) => println(s"Got the result = $value")
       case scala.util.Failure(e) => println(s"Got error: $e")
